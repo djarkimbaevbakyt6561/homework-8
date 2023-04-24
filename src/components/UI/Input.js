@@ -1,18 +1,18 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 import { Fragment } from "react";
-export const Input = (props) => {
-    return (
-        <>
-            <Label for={props.name}>
-                {props.children}
-            </Label>
-            <InputForModal value={props.value} onChange={props.onChange} type={props.type} name={props.name}></InputForModal>
-        </>
+export const Input = forwardRef((props, ref) => {
+  return (
+    <>
+      <Label for={props.name}>
+        {props.children}
+      </Label>
+      <InputForModal ref={ref} value={props.value} onChange={props.onChange} type={props.type} name={props.name}></InputForModal>
+    </>
 
-    )
+  )
 
-}
+})
 
 const Label = styled.label`
   font-weight: bold;

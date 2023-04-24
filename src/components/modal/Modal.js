@@ -1,50 +1,39 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { Input } from '../UI/Input'
 import { Button } from "../UI/Button";
 import styled from "styled-components";
-const Modal = ({ onClick, className, onSubmit }) => {
-  const [inputText, setInputText] = useState('');
-  const [inputImage, setInputUrl] = useState('');
-  const [inputRating, setInputRating] = useState('');
-  function getInputText(e) {
-    setInputText(e.target.value);
-  }
-
-  function getInputUrl(e) {
-    setInputUrl(e.target.value);
-  }
-
-  function getInputRating(e) {
-    setInputRating(e.target.value);
-  }
+const Modal = ({ onClick,  onSubmit }) => {
+  const inputText = useRef()
+  const inputImage = useRef()
+  const inputRating = useRef()
 
 
   function addMovieHandler(e) {
     e.preventDefault();
     const movie = {
-      title: inputText,
-      img: inputImage,
-      rating: inputRating,
+      title: inputText.current.value,
+      img: inputImage.current.value,
+      rating: inputRating.current.value,
       id: Math.random()
     };
+    inputText.current.value = ""
+    inputImage.current.value = ""
+    inputRating.current.value = ""
+
     onSubmit(movie);
-    setInputText('');
-    setInputUrl('');
-    setInputRating('');
     onClick();
   }
   return (
     <Wrapper>
       <ModalContainer>
         <ModalContent>
-          <Input type="text" name="title" id="title" value={inputText} onChange={getInputText}>Movie Title</Input>
-          <Input value={inputImage} onChange={getInputUrl} type="text" name="image-url" id="image-url">Image URL</Input>
+          <Input type="text" name="title" id="title" ref={inputText}>Movie Title</Input>
+          <Input ref={inputImage} type="text" name="image-url" id="image-url">Image URL</Input>
           <Input
-            value={inputRating}
             type="number"
             name="rating"
             id="rating"
-            onChange={getInputRating}
+            ref={inputRating}
           >Your Rating</Input>
         </ModalContent>
         <ModalActions>
@@ -56,7 +45,7 @@ const Modal = ({ onClick, className, onSubmit }) => {
           </Button>
         </ModalActions>
       </ModalContainer>
-      
+
     </Wrapper>
   );
 };
